@@ -3,11 +3,13 @@ import Base from '../../layouts/Base.astro';
 import LeadForm from '../../components/LeadForm.astro';
 import countries from '../../data/countries.json';
 import { flags } from '../../data/flags.js';
+import { tg } from '../../lib/tg.js';
 export function getStaticPaths() {
   return countries.map((c) => ({ params: { slug: c.slug }, props: { c } }));
 }
 const { c } = Astro.props;
 const flag = flags[c.slug] || null;
+const tgText = `Здравствуйте! Нужна виза ${c.case}.\nДаты поездки: \nГород подачи: `;
 const others = countries.filter((x) => x.slug !== c.slug).slice(0, 4);
 const jsonld = {
   '@context': 'https://schema.org',
@@ -39,6 +41,7 @@ const jsonld = {
   title={`Виза ${c.case} 2026: цена, документы, сроки — VISONA Travel`}
   description={`${c.type}. Сопровождение от ${c.price.toLocaleString('ru-RU')} ₽ за человека: запись, документы, анкета и поддержка до решения консульства.`}
   jsonld={jsonld}
+  tgText={tgText}
 >
   <section class="flagwrap" style="padding-top:0">
     {flag && <div class="flagwash" set:html={flag} />}
@@ -49,7 +52,7 @@ const jsonld = {
         <h1 style="margin-top:16px">Виза {c.case}</h1>
         <p class="note" style="font-size:18px;margin-top:16px">{c.lead}</p>
         <div class="cta-row">
-          <a class="btn btn-primary" href="#zayavka">Оставить заявку</a>
+          <a class="btn btn-primary" href={tg(tgText)} rel="noopener" data-goal="tg">Написать в Telegram</a>
           <a class="btn btn-ghost" href="/srochno/">Нужно срочно</a>
         </div>
       </div>
@@ -91,6 +94,15 @@ const jsonld = {
     </div>
   </section>
 
+  <section style="padding-bottom:0">
+    <div class="wrap">
+      <div class="cta-strip">
+        <div><h3>Успеваете к своей дате?</h3><p>Напишите даты поездки и город. За час ответим, реально ли успеть, и назовем итоговую сумму вместе со сборами.</p></div>
+        <a class="btn btn-primary" href={tg(tgText)} rel="noopener" data-goal="tg_strip">Спросить в Telegram</a>
+      </div>
+    </div>
+  </section>
+
   {c.slug === 'spain' && (
     <section>
       <div class="wrap">
@@ -105,7 +117,7 @@ const jsonld = {
             <div class="offer-item"><b>Один визит</b><span>Только биометрия, 15 минут</span></div>
             <div class="offer-item"><b>Ближайшие даты</b><span>Обычно в течение недели</span></div>
           </div>
-          <div class="cta-row"><a class="btn btn-ghost" href="#zayavka">Забрать дату</a></div>
+          <div class="cta-row"><a class="btn btn-ghost" href={tg('Здравствуйте! Хочу подачу в Испанию под ключ.\nЖелаемая дата подачи: \nСколько человек: ')} rel="noopener" data-goal="tg_spain">Забрать дату в Telegram</a></div>
         </div>
       </div>
     </section>

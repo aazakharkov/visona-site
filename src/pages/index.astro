@@ -4,6 +4,7 @@ import LeadForm from '../components/LeadForm.astro';
 import site from '../data/site.json';
 import countries from '../data/countries.json';
 import { flags } from '../data/flags.js';
+import { tg } from '../lib/tg.js';
 const faq = [
   ['Вы гарантируете, что визу дадут?', 'Нет, и никто не может: решение принимает консульство. Мы отвечаем за то, чтобы пакет документов был собран правильно и шансы были максимальными. Обещание стопроцентной гарантии это либо манипуляция, либо коррупция.'],
   ['А если откажут?', 'Разбираем причину и подаемся повторно. Наши услуги в этом случае бесплатны, заново оплачиваются только обязательные сборы, потому что их забираем не мы.'],
@@ -31,7 +32,7 @@ const min = Math.min(...countries.map((c) => c.price));
         <h1 style="margin-top:20px">Визы для тех, кто уже выбрал поездку</h1>
         <p class="note" style="font-size:18px;margin-top:18px">Разбираем вашу ситуацию, ловим слот, собираем пакет документов и остаемся на связи до решения консульства. С вами работают два человека, которые сами постоянно подаются на визы, а не колл-центр.</p>
         <div class="cta-row">
-          <a class="btn btn-primary" href="#zayavka">Оставить заявку</a>
+          <a class="btn btn-primary" href={tg('Здравствуйте! Хочу оформить визу.\nСтрана: \nДаты поездки: ')} rel="noopener" data-goal="tg">Написать в Telegram</a>
           <a class="btn btn-ghost" href="/tseny/">Смотреть цены</a>
           <a class="btn btn-ghost" href="/srochno/">Нужно срочно</a>
         </div>
@@ -77,7 +78,8 @@ const min = Math.min(...countries.map((c) => c.price));
           <div class="offer-item"><b>Вся Россия</b><span>Документы принимаем СДЭКом</span></div>
         </div>
         <div class="cta-row">
-          <a class="btn btn-ghost" href="/visa/spain/">Подробнее об Испании</a>
+          <a class="btn btn-ghost" href={tg('Здравствуйте! Хочу подачу в Испанию под ключ.\nЖелаемая дата подачи: \nСколько человек: ')} rel="noopener" data-goal="tg_spain">Забрать дату в Telegram</a>
+          <a class="btn btn-ghost" href="/visa/spain/" style="background:transparent;color:#fff;border-color:rgba(255,255,255,.5)">Подробнее об Испании</a>
         </div>
       </div>
     </div>

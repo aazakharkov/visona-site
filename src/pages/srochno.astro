@@ -1,6 +1,7 @@
 ---
 import Base from '../layouts/Base.astro';
 import LeadForm from '../components/LeadForm.astro';
+import { tg } from '../lib/tg.js';
 
 const groups = [
   {
@@ -50,6 +51,7 @@ const jsonld = {
   title="Срочная подача и VIP-услуги — VISONA Travel"
   description="Подача документов под ключ в Испанию, Италию и Францию, срочная запись в визовый центр, VIP-зал, Prime Time и мобильная биометрия. Цены и условия."
   jsonld={jsonld}
+  tgText={'Здравствуйте! Нужна срочная подача.\nСтрана: \nК какой дате нужна виза: \nЕсть ли действующая биометрия: '}
 >
   <div class="wrap crumbs"><a href="/">Главная</a> / Срочная подача</div>
   <section class="hero" style="padding-top:24px">
@@ -74,7 +76,7 @@ const jsonld = {
           <div class="offer-item"><b>Один визит</b><span>Только биометрия, 15 минут</span></div>
           <div class="offer-item"><b>Вся Россия</b><span>Документы принимаем СДЭКом</span></div>
         </div>
-        <div class="cta-row"><a class="btn btn-ghost" href="#zayavka">Забрать дату</a></div>
+        <div class="cta-row"><a class="btn btn-ghost" href={tg('Здравствуйте! Хочу подачу в Испанию под ключ.\nЖелаемая дата подачи: \nСколько человек: ')} rel="noopener" data-goal="tg_spain">Забрать дату в Telegram</a></div>
       </div>
     </div>
   </section>

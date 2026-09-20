@@ -17,7 +17,7 @@ const faq = [
 ];
 const jsonld = { '@context': 'https://schema.org', '@type': 'FAQPage', mainEntity: faq.map(([q, a]) => ({ '@type': 'Question', name: q, acceptedAnswer: { '@type': 'Answer', text: a } })) };
 ---
-<Base title="Запись в визовый центр ботом — VISONA Travel" description="Запись в визовые центры Франции, Испании, Италии, Кипра и США ботом без сопровождения. Оплата по факту записи." jsonld={jsonld}>
+<Base title="Запись в визовый центр ботом — VISONA Travel" description="Запись в визовые центры Франции, Испании, Италии, Кипра и США ботом без сопровождения. Оплата по факту записи." jsonld={jsonld} tgText={'Здравствуйте! Нужна запись ботом.\nСтрана: \nГород: \nУдобные даты: '}>
   <div class="wrap crumbs"><a href="/">Главная</a> / Запись ботом</div>
   <section class="hero" style="padding-top:24px">
     <div class="aurora"></div>
