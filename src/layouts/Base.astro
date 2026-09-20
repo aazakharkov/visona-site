@@ -1,0 +1,103 @@
+---
+import '../styles/global.css';
+import site from '../data/site.json';
+const { title, description, path = Astro.url.pathname, jsonld = null, noindex = false } = Astro.props;
+const canonical = new URL(path, Astro.site).href;
+const year = new Date().getFullYear();
+const org = {
+  "@context": "https://schema.org",
+  "@type": "TravelAgency",
+  name: site.name,
+  url: Astro.site?.href,
+  telephone: site.phone,
+  email: site.email,
+  areaServed: "RU",
+  sameAs: [site.telegram, site.instagram, site.channel],
+  openingHours: "Mo-Su 10:00-21:00",
+};
+---
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<title>{title}</title>
+<meta name="description" content={description} />
+<link rel="canonical" href={canonical} />
+{noindex && <meta name="robots" content="noindex, follow" />}
+<meta property="og:type" content="website" />
+<meta property="og:site_name" content={site.name} />
+<meta property="og:title" content={title} />
+<meta property="og:description" content={description} />
+<meta property="og:url" content={canonical} />
+<meta property="og:locale" content="ru_RU" />
+<link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Golos+Text:wght@400;500;600;700&family=Unbounded:wght@500;600&display=swap" />
+<script type="application/ld+json" set:html={JSON.stringify(org)} />
+{jsonld && <script type="application/ld+json" set:html={JSON.stringify(jsonld)} />}
+<!-- Яндекс Метрика: вставьте счетчик сюда после запуска сайта. Скрипт должен подключаться только после согласия на cookie. -->
+</head>
+<body>
+<header class="topbar">
+  <div class="wrap topbar-in">
+    <a class="brand" href="/">VISONA <span>travel</span></a>
+    <nav class="nav">
+      <a href="/visa/">Страны</a>
+      <a href="/tseny/">Цены</a>
+      <a href="/o-nas/">О нас</a>
+      <a href="/kontakty/">Контакты</a>
+    </nav>
+    <a class="btn btn-primary btn-sm" href={site.telegram} rel="noopener">Написать в Telegram</a>
+  </div>
+</header>
+<main>
+  <slot />
+</main>
+<footer>
+  <div class="wrap foot">
+    <div>
+      <strong>{site.name}</strong>
+      <p style="margin-top:8px">Помощь в подготовке документов на визу. Мы не являемся визовым центром или консульством и не влияем на решение по визе.</p>
+      <p style="margin-top:8px">{site.inn} · {site.ogrn}</p>
+    </div>
+    <div>
+      <a href="/visa/">Страны и визы</a>
+      <a href="/tseny/">Цены</a>
+      <a href="/o-nas/">О нас</a>
+      <a href="/kontakty/">Контакты</a>
+    </div>
+    <div>
+      <a href={site.telegram} rel="noopener">Telegram {site.telegramHandle}</a>
+      <a href={`tel:${site.phone.replace(/[^+\d]/g, '')}`}>{site.phoneHuman}</a>
+      <a href={`mailto:${site.email}`}>{site.email}</a>
+      <a href="/politika/">Политика конфиденциальности</a>
+    </div>
+  </div>
+  <div class="wrap" style="margin-top:18px">© {year} {site.name}</div>
+</footer>
+<div class="cookie" id="cookie" hidden>
+  <p>Сайт использует файлы cookie и сервисы веб-аналитики. Подробности в <a href="/politika/">политике конфиденциальности</a>.</p>
+  <button class="btn btn-ghost btn-sm" id="cookie-no" type="button">Только необходимые</button>
+  <button class="btn btn-primary btn-sm" id="cookie-yes" type="button">Принять</button>
+</div>
+<script is:inline>
+(function () {
+  var box = document.getElementById('cookie');
+  if (!box) return;
+  var stored = null;
+  try { stored = localStorage.getItem('visona-cookie'); } catch (e) {}
+  if (!stored) box.hidden = false;
+  function decide(value) {
+    try { localStorage.setItem('visona-cookie', value); } catch (e) {}
+    box.hidden = true;
+    if (value === 'all' && typeof window.visonaEnableAnalytics === 'function') window.visonaEnableAnalytics();
+  }
+  document.getElementById('cookie-yes').addEventListener('click', function () { decide('all'); });
+  document.getElementById('cookie-no').addEventListener('click', function () { decide('necessary'); });
+  if (stored === 'all' && typeof window.visonaEnableAnalytics === 'function') window.visonaEnableAnalytics();
+})();
+</script>
+</body>
+</html>

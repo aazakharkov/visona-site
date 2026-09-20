@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+Disallow: /politika/
+
+Sitemap: https://visonatravel.com/sitemap-index.xml

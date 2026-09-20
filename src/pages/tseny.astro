@@ -1,0 +1,54 @@
+---
+import Base from '../layouts/Base.astro';
+import LeadForm from '../components/LeadForm.astro';
+import countries from '../data/countries.json';
+const extra = [
+  ['Страховка на Шенген', '2 500 ₽', 'Если у вас нет полиса от банка или ДМС'],
+  ['Заполнение анкеты и личный кабинет, Франция', '2 000 ₽', 'По умолчанию даем пошаговую инструкцию'],
+  ['Бронь авиабилетов под визу, Испания', '2 500 ₽', 'Без выкупа реальных билетов'],
+  ['Консультация 45 минут', '4 900 ₽', 'Разбор вашей ситуации без оформления'],
+  ['Подача после отказа, полученного не с нами', '9 900 ₽', 'Разбор причин и усиленный пакет'],
+];
+---
+<Base title="Цены на оформление визы — VISONA Travel" description="Стоимость сопровождения по странам: Франция, Испания, Италия, Венгрия, Греция, Кипр, Великобритания, США, Япония. Что входит и какие сборы оплачиваются отдельно.">
+  <div class="wrap crumbs"><a href="/">Главная</a> / Цены</div>
+  <section style="padding-top:24px">
+    <div class="wrap">
+      <h1>Цены</h1>
+      <p class="note" style="margin-top:16px;font-size:17px">Ниже стоимость нашей работы за одного человека. Консульский и сервисный сборы оплачиваются отдельно, напрямую консульству и визовому центру. Если в вашем городе слот ловится только ботом, его стоимость называем сразу.</p>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Страна</th><th>Тип визы</th><th>Наша работа</th></tr></thead>
+          <tbody>
+            {countries.map((c) => (
+              <tr>
+                <td><a href={`/visa/${c.slug}/`}>{c.name}</a></td>
+                <td class="muted">{c.type}</td>
+                <td>от {c.price.toLocaleString('ru-RU')} ₽</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+      <h2 style="margin-top:40px">Дополнительные услуги</h2>
+      <div class="table-wrap">
+        <table>
+          <tbody>
+            {extra.map(([n, p, d]) => (<tr><td>{n}<div class="muted" style="font-size:13px">{d}</div></td><td>{p}</td></tr>))}
+          </tbody>
+        </table>
+      </div>
+      <h2 style="margin-top:40px">Скидки</h2>
+      <ul class="list">
+        <li>Двое: 10% на наши услуги.</li>
+        <li>От четырех человек: 20% на наши услуги.</li>
+        <li>Комплекс шенген плюс США через Варшаву: 5 000 ₽ скидки на американскую часть.</li>
+        <li>Повторная подача после отказа, полученного с нами: наши услуги бесплатно.</li>
+      </ul>
+      <p class="note" style="margin-top:18px">Скидки не распространяются на боты, доплаты за запись и обязательные сборы.</p>
+    </div>
+  </section>
+  <section class="surface">
+    <div class="wrap"><LeadForm heading="Посчитать стоимость для вашей поездки" /></div>
+  </section>
+</Base>

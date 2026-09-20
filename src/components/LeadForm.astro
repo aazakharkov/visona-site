@@ -1,0 +1,50 @@
+---
+import site from '../data/site.json';
+const { heading = 'Расскажите, куда собираетесь', country = '' } = Astro.props;
+---
+<div class="panel" id="zayavka">
+  <div class="eyebrow">Заявка</div>
+  <h2 style="margin-top:10px">{heading}</h2>
+  <p class="note" style="margin-top:12px">Напишите страну, даты поездки и город подачи. Этого хватит, чтобы назвать срок и точную сумму со всеми сборами. Если поездка горит, так и скажите.</p>
+  <form id="lead-form" method="post" action="/api/lead" novalidate>
+    <input type="hidden" name="country" value={country} />
+    <div class="field">
+      <label for="lead-name">Имя</label>
+      <input id="lead-name" name="name" required autocomplete="name" />
+    </div>
+    <div class="field">
+      <label for="lead-contact">Телефон или Telegram</label>
+      <input id="lead-contact" name="contact" required autocomplete="tel" />
+    </div>
+    <div class="field">
+      <label for="lead-text">Куда и когда едете</label>
+      <textarea id="lead-text" name="message" rows="3"></textarea>
+    </div>
+    <label class="consent" for="lead-consent">
+      <input type="checkbox" id="lead-consent" name="consent" required />
+      <span>Я согласен на обработку персональных данных в целях ответа на заявку и ознакомился с <a href="/politika/">политикой конфиденциальности</a>.</span>
+    </label>
+    <div class="cta-row">
+      <button class="btn btn-primary" type="submit">Отправить заявку</button>
+      <a class="btn btn-ghost" href={site.telegram} rel="noopener">Написать в Telegram</a>
+    </div>
+    <p class="form-note" id="lead-status">Пока форма не подключена к серверу: до запуска обработчика заявок она открывает Telegram. Инструкция по подключению лежит в README проекта.</p>
+  </form>
+</div>
+<script is:inline define:vars={{ tg: site.telegram }}>
+(function () {
+  var form = document.getElementById('lead-form');
+  if (!form) return;
+  form.addEventListener('submit', function (event) {
+    event.preventDefault();
+    if (!form.reportValidity()) return;
+    var status = document.getElementById('lead-status');
+    var endpointReady = form.dataset.live === '1';
+    if (!endpointReady) { window.open(tg, '_blank', 'noopener'); status.textContent = 'Открыли Telegram: напишите там пару слов о поездке.'; return; }
+    var data = new FormData(form);
+    fetch(form.action, { method: 'POST', body: data })
+      .then(function (r) { status.textContent = r.ok ? 'Заявка отправлена, ответим в течение часа.' : 'Не получилось отправить. Напишите нам в Telegram.'; })
+      .catch(function () { status.textContent = 'Не получилось отправить. Напишите нам в Telegram.'; });
+  });
+})();
+</script>
