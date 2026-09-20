@@ -1,16 +1,19 @@
 ---
 import Base from '../../layouts/Base.astro';
 import countries from '../../data/countries.json';
+import { flags } from '../../data/flags.js';
 ---
 <Base title="Страны и визы — VISONA Travel" description="Визы в Европу, Великобританию, США, Японию и на Кипр: что входит в сопровождение, сроки, сборы и цены.">
   <div class="wrap crumbs"><a href="/">Главная</a> / Страны</div>
-  <section style="padding-top:24px">
+  <section class="hero" style="padding-top:24px">
+    <div class="aurora"></div>
     <div class="wrap">
       <h1>Страны и визы</h1>
       <p class="note" style="margin-top:16px;font-size:17px">Выберите страну: на странице собраны сроки, список сборов, что входит в нашу работу и ответы на частые вопросы по этому направлению.</p>
       <div class="grid">
         {countries.map((c) => (
           <a class="card" href={`/visa/${c.slug}/`}>
+            <span class="cflag" set:html={flags[c.slug]} />
             <div class="row"><h3>{c.name}</h3><span class="price">от {c.price.toLocaleString('ru-RU')} ₽</span></div>
             <p>{c.lead}</p>
             <div class="tags"><span class="tag">{c.type}</span></div>

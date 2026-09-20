@@ -3,6 +3,7 @@ import Base from '../layouts/Base.astro';
 import LeadForm from '../components/LeadForm.astro';
 import site from '../data/site.json';
 import countries from '../data/countries.json';
+import { flags } from '../data/flags.js';
 const faq = [
   ['Вы гарантируете, что визу дадут?', 'Нет, и никто не может: решение принимает консульство. Мы отвечаем за то, чтобы пакет документов был собран правильно и шансы были максимальными. Обещание стопроцентной гарантии это либо манипуляция, либо коррупция.'],
   ['А если откажут?', 'Разбираем причину и подаемся повторно. Наши услуги в этом случае бесплатны, заново оплачиваются только обязательные сборы, потому что их забираем не мы.'],
@@ -22,11 +23,12 @@ const min = Math.min(...countries.map((c) => c.price));
   description={`Оформление виз с личным сопровождением: разбор ситуации, запись в визовый центр, документы и поддержка до решения консульства. Наша работа от ${min.toLocaleString('ru-RU')} ₽ за человека.`}
   jsonld={jsonld}
 >
-  <section>
+  <section class="hero">
+    <div class="aurora"></div>
     <div class="wrap two">
       <div>
         <span class="stamp">Визы без агентского конвейера</span>
-        <h1 style="margin-top:18px">Визы для тех, кто уже выбрал поездку</h1>
+        <h1 style="margin-top:20px">Визы для тех, кто уже выбрал поездку</h1>
         <p class="note" style="font-size:18px;margin-top:18px">Разбираем вашу ситуацию, ловим слот, собираем пакет документов и остаемся на связи до решения консульства. С вами работают два человека, которые сами постоянно подаются на визы, а не колл-центр.</p>
         <div class="cta-row">
           <a class="btn btn-primary" href="#zayavka">Оставить заявку</a>
@@ -43,13 +45,34 @@ const min = Math.min(...countries.map((c) => c.price));
     </div>
   </section>
 
+  <section style="padding-top:0">
+    <div class="wrap">
+      <div class="offer">
+        <div class="offer-eyebrow">Испания, гарантированный слот</div>
+        <h2 style="margin-top:12px">Подача в любой день, хоть завтра</h2>
+        <p>Свободных дат в визовых центрах почти нет, но у нас есть готовые места в листе подачи. Документы готовим и заносим мы, вы приезжаете один раз и только на биометрию. Если биометрия уже сдана, приезжать не нужно вовсе.</p>
+        <span class="offer-price">от 50 000 ₽ за человека</span>
+        <div class="offer-grid">
+          <div class="offer-item"><b>Дата гарантирована</b><span>Не ждем, пока слот появится в продаже</span></div>
+          <div class="offer-item"><b>Все сборы включены</b><span>Консульский, сервисный и доставка паспорта</span></div>
+          <div class="offer-item"><b>Анкета и брони</b><span>Авиа и отель под визу готовим сами</span></div>
+          <div class="offer-item"><b>Вся Россия</b><span>Документы принимаем СДЭКом</span></div>
+        </div>
+        <div class="cta-row">
+          <a class="btn btn-ghost" href="/visa/spain/">Подробнее об Испании</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <section class="surface">
     <div class="wrap">
       <div class="eyebrow">Страны</div>
-      <h2 style="margin-top:10px">Куда помогаем получить визу</h2>
+      <h2 style="margin-top:12px">Куда помогаем получить визу</h2>
       <div class="grid">
         {countries.map((c) => (
           <a class="card" href={`/visa/${c.slug}/`}>
+            <span class="cflag" set:html={flags[c.slug]} />
             <div class="row"><h3>{c.name}</h3><span class="price">от {c.price.toLocaleString('ru-RU')} ₽</span></div>
             <p>{c.lead}</p>
             <div class="tags"><span class="tag">{c.type}</span></div>
@@ -63,21 +86,21 @@ const min = Math.min(...countries.map((c) => c.price));
   <section>
     <div class="wrap">
       <div class="eyebrow">Срочно</div>
-      <h2 style="margin-top:10px">Если свободных дат уже нет</h2>
+      <h2 style="margin-top:12px">Если свободных дат уже нет</h2>
       <p class="note" style="margin-top:12px;font-size:17px">Слоты во Францию, Испанию и Италию разбирают за минуты, а в части регионов прием идет раз в неделю. На этот случай есть отдельные инструменты.</p>
-      <div class="steps" style="margin-top:20px">
-        <div class="step"><h3>Подача под ключ</h3><p>Документы готовим и заносим в визовый центр мы, запись не нужна. Вы приезжаете только на биометрию, а с действующей биометрией можете не приезжать вовсе. Испания и Италия от 52 000 ₽, Франция от 68 000 ₽.</p></div>
-        <div class="step"><h3>Срочная запись</h3><p>Бот занимает освободившиеся места круглосуточно, во Франции это 18 городов. Оплата по факту записи, а не за попытку. От 19 000 ₽.</p></div>
+      <div class="steps" style="margin-top:22px">
+        <div class="step"><h3>Подача под ключ</h3><p>Документы готовим и заносим в визовый центр мы, запись не нужна. Вы приезжаете только на биометрию, а с действующей биометрией можете не приезжать вовсе. Испания от 50 000 ₽, Италия от 52 000 ₽, Франция от 68 000 ₽.</p></div>
+        <div class="step"><h3>Срочная запись</h3><p>Бот занимает освободившиеся места круглосуточно, во Франции это 18 городов. Оплата по факту записи, а не за попытку. От 15 000 ₽ плюс сервисный сбор визового центра.</p></div>
         <div class="step"><h3>VIP-зал и Prime Time</h3><p>Официальные услуги визовых центров: подача без общей очереди, вне обычных часов работы или вовсе без записи. От 13 000 ₽.</p></div>
       </div>
-      <div class="cta-row" style="margin-top:22px"><a class="btn btn-primary" href="/srochno/">Все срочные варианты</a></div>
+      <div class="cta-row" style="margin-top:24px"><a class="btn btn-primary" href="/srochno/">Все срочные варианты</a></div>
     </div>
   </section>
 
-  <section>
+  <section class="surface">
     <div class="wrap">
       <div class="eyebrow">Как работаем</div>
-      <h2 style="margin-top:10px">Четыре шага от сообщения до паспорта с визой</h2>
+      <h2 style="margin-top:12px">Четыре шага от сообщения до паспорта с визой</h2>
       <div class="steps">
         <div class="step"><h3>Разбираем ситуацию</h3><p>Вы пишете, куда и когда хотите поехать. Мы говорим, реально ли успеть, в какую страну подаваться выгоднее и сколько это стоит целиком, вместе со сборами.</p></div>
         <div class="step"><h3>Ловим слот</h3><p>Записываем в визовый центр: руками там, где это возможно, или через бота, если свободных дат нет. Дату согласуем заранее.</p></div>
@@ -87,11 +110,11 @@ const min = Math.min(...countries.map((c) => c.price));
     </div>
   </section>
 
-  <section class="surface">
+  <section>
     <div class="wrap two">
       <div>
         <div class="eyebrow">Вопросы</div>
-        <h2 style="margin-top:10px;margin-bottom:12px">Что обычно спрашивают</h2>
+        <h2 style="margin-top:12px;margin-bottom:12px">Что обычно спрашивают</h2>
         {faq.map(([q, a], i) => (
           <details open={i === 0}><summary>{q}</summary><p>{a}</p></details>
         ))}
@@ -106,7 +129,7 @@ const min = Math.min(...countries.map((c) => c.price));
     </div>
   </section>
 
-  <section>
+  <section class="surface">
     <div class="wrap">
       <LeadForm />
     </div>

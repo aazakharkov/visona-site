@@ -2,10 +2,12 @@
 import Base from '../../layouts/Base.astro';
 import LeadForm from '../../components/LeadForm.astro';
 import countries from '../../data/countries.json';
+import { flags } from '../../data/flags.js';
 export function getStaticPaths() {
   return countries.map((c) => ({ params: { slug: c.slug }, props: { c } }));
 }
 const { c } = Astro.props;
+const flag = flags[c.slug] || null;
 const others = countries.filter((x) => x.slug !== c.slug).slice(0, 4);
 const jsonld = {
   '@context': 'https://schema.org',
@@ -38,8 +40,9 @@ const jsonld = {
   description={`${c.type}. Сопровождение от ${c.price.toLocaleString('ru-RU')} ₽ за человека: запись, документы, анкета и поддержка до решения консульства.`}
   jsonld={jsonld}
 >
-  <div class="wrap crumbs"><a href="/">Главная</a> / <a href="/visa/">Страны</a> / {c.name}</div>
-  <section style="padding-top:24px">
+  <section class="flagwrap" style="padding-top:0">
+    {flag && <div class="flagwash" set:html={flag} />}
+    <div class="wrap crumbs" style="margin-bottom:24px"><a href="/">Главная</a> / <a href="/visa/">Страны</a> / {c.name}</div>
     <div class="wrap two">
       <div>
         <span class="stamp">{c.type}</span>
@@ -47,7 +50,7 @@ const jsonld = {
         <p class="note" style="font-size:18px;margin-top:16px">{c.lead}</p>
         <div class="cta-row">
           <a class="btn btn-primary" href="#zayavka">Оставить заявку</a>
-          <a class="btn btn-ghost" href="/tseny/">Все цены</a>
+          <a class="btn btn-ghost" href="/srochno/">Нужно срочно</a>
         </div>
       </div>
       <div class="facts">
@@ -79,6 +82,26 @@ const jsonld = {
       </div>
     </div>
   </section>
+
+  {c.slug === 'spain' && (
+    <section>
+      <div class="wrap">
+        <div class="offer">
+          <div class="offer-eyebrow">Наша главная услуга</div>
+          <h2 style="margin-top:12px">Подача в Испанию в любой день, хоть завтра</h2>
+          <p>Слот гарантирован: место в листе подачи уже есть, искать свободную дату на сайте визового центра не нужно. Документы готовим и заносим мы, вы приезжаете один раз и только на биометрию. Если действующая биометрия уже сдана, приезжать не нужно вовсе, документы принимаем СДЭКом из любого города.</p>
+          <span class="offer-price">от 50 000 ₽ за человека</span>
+          <div class="offer-grid">
+            <div class="offer-item"><b>Все сборы включены</b><span>Консульский и сервисный, доставка паспорта</span></div>
+            <div class="offer-item"><b>Анкета и брони</b><span>Авиа и отель под визу готовим сами</span></div>
+            <div class="offer-item"><b>Один визит</b><span>Только биометрия, 15 минут</span></div>
+            <div class="offer-item"><b>Ближайшие даты</b><span>Обычно в течение недели</span></div>
+          </div>
+          <div class="cta-row"><a class="btn btn-ghost" href="#zayavka">Забрать дату</a></div>
+        </div>
+      </div>
+    </section>
+  )}
 
   <section>
     <div class="wrap two">
