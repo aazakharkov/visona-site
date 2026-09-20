@@ -64,9 +64,17 @@ const jsonld = {
     <div class="wrap two">
       <div>
         <div class="eyebrow">Что входит</div>
-        <h2 style="margin-top:10px">Что мы делаем за {c.price.toLocaleString('ru-RU')} ₽</h2>
-        <ul class="list">{c.included.map((i) => (<li>{i}</li>))}</ul>
-        <p class="note" style="margin-top:18px">{c.bot}</p>
+        <h2 style="margin-top:10px">Что вы получаете за {c.price.toLocaleString('ru-RU')} ₽</h2>
+        <p class="note" style="margin-top:12px;font-size:16px">Вы не разбираетесь в требованиях консульства и не гадаете, хватит ли справок. Мы ведем подачу от первого сообщения до паспорта с визой.</p>
+        <div class="feats">
+          {c.included.map((i, n) => (<div class="feat"><span class="feat-n">{String(n + 1).padStart(2, '0')}</span><p>{i}</p></div>))}
+        </div>
+        <div class="promise">
+          <div><b>Повторная подача бесплатно</b><span>если откажут после подачи с нами</span></div>
+          <div><b>Ответ в течение часа</b><span>в Telegram, каждый день с 10 до 21</span></div>
+          <div><b>Итоговая сумма заранее</b><span>вместе со всеми сборами, до оплаты</span></div>
+        </div>
+        <p class="note" style="margin-top:18px">{c.bot} <a href="/bot/">Запись ботом отдельно</a>.</p>
       </div>
       <div>
         <div class="eyebrow">Обязательные сборы</div>

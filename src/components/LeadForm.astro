@@ -8,6 +8,8 @@ const { heading = 'Расскажите, куда собираетесь', count
   <p class="note" style="margin-top:12px">Напишите страну, даты поездки и город подачи. Этого хватит, чтобы назвать срок и точную сумму со всеми сборами. Если поездка горит, так и скажите.</p>
   <form id="lead-form" method="post" action="/api/lead" novalidate>
     <input type="hidden" name="country" value={country} />
+    <div aria-hidden="true" style="position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden"><label>Сайт<input type="text" name="website" tabindex="-1" autocomplete="off" /></label></div>
+    <input type="hidden" name="ts" value="" />
     <div class="field">
       <label for="lead-name">Имя</label>
       <input id="lead-name" name="name" required autocomplete="name" />
@@ -35,9 +37,14 @@ const { heading = 'Расскажите, куда собираетесь', count
 (function () {
   var form = document.getElementById('lead-form');
   if (!form) return;
+  form.dataset.started = String(Date.now());
   form.addEventListener('submit', function (event) {
     event.preventDefault();
     if (!form.reportValidity()) return;
+    if (form.website && form.website.value) return;
+    var started = Number(form.dataset.started || 0);
+    if (started && Date.now() - started < 3000) return;
+    if (form.ts) form.ts.value = String(started);
     var status = document.getElementById('lead-status');
     var endpointReady = form.dataset.live === '1';
     if (!endpointReady) { window.open(tg, '_blank', 'noopener'); status.textContent = 'Открыли Telegram: напишите там пару слов о поездке.'; return; }

@@ -1,0 +1,51 @@
+---
+import Base from '../layouts/Base.astro';
+import LeadForm from '../components/LeadForm.astro';
+import { flags } from '../data/flags.js';
+const rows = [
+  ['france', 'Франция', '15 000 ₽', 'Москва, Петербург и 16 городов регионов. Плюс сервисный сбор визового центра, сейчас около 3 400 ₽. Оплата по факту записи.'],
+  ['spain', 'Испания', '14 000 ₽', 'Москва, Петербург и Екатеринбург 15 000 ₽, остальные регионы 14 000 ₽. Сборы визового центра отдельно.'],
+  ['italy', 'Италия, Almaviva', '6 500 ₽', 'Регионы, куда вручную записаться почти невозможно. Подача строго по постоянной регистрации.'],
+  ['cyprus', 'Кипр', '6 500 ₽', 'Если в визовом центре нет свободных дат.'],
+  ['usa', 'США, Астана', '20 000 ₽', 'В Астану записаться можно только ботом. Свободные слоты сейчас на 2027-2028 год. В Варшаву записываем без бота.'],
+];
+const faq = [
+  ['Что нужно для записи?', 'Фото главной страницы загранпаспорта, город подачи и диапазон дат, в который вам удобно прийти. Можно указать дни, которые не подходят.'],
+  ['Когда платить?', 'Когда место уже закреплено за вами и мы прислали подтверждение записи. Если на удобные даты ничего не поймалось, вы ничего не платите.'],
+  ['Можно записать семью?', 'Да. Каждого заявителя ловим отдельно, но можно попросить поставить всех на один день.'],
+  ['А документы вы поможете собрать?', 'Если нужно, да, это уже полное сопровождение по цене страны. Запись ботом отдельно подходит тем, кто собирает пакет сам.'],
+];
+const jsonld = { '@context': 'https://schema.org', '@type': 'FAQPage', mainEntity: faq.map(([q, a]) => ({ '@type': 'Question', name: q, acceptedAnswer: { '@type': 'Answer', text: a } })) };
+---
+<Base title="Запись в визовый центр ботом — VISONA Travel" description="Запись в визовые центры Франции, Испании, Италии, Кипра и США ботом без сопровождения. Оплата по факту записи." jsonld={jsonld}>
+  <div class="wrap crumbs"><a href="/">Главная</a> / Запись ботом</div>
+  <section class="hero" style="padding-top:24px">
+    <div class="aurora"></div>
+    <div class="wrap">
+      <span class="stamp">Только запись, без сопровождения</span>
+      <h1 style="margin-top:20px">Запись в визовый центр ботом</h1>
+      <p class="note" style="margin-top:16px;font-size:17px">Для тех, кто собирает документы сам, но не может поймать дату. Бот круглосуточно следит за сайтом визового центра и занимает освободившиеся места раньше людей. Вы платите, когда место уже за вами.</p>
+      <div class="table-wrap" style="margin-top:28px">
+        <table>
+          <thead><tr><th>Направление</th><th>Цена за человека</th></tr></thead>
+          <tbody>
+            {rows.map(([slug, n, p, d]) => (
+              <tr><td><div style="display:flex;gap:12px;align-items:flex-start"><span class="cflag" style="width:28px;flex:none;margin-top:2px" set:html={flags[slug]} /><div><b>{n}</b><div class="muted" style="font-size:13px;font-weight:400;margin-top:4px">{d}</div></div></div></td><td>от {p}</td></tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+      <p class="note" style="margin-top:18px">Нужна дата в ближайшие дни и без ожидания? Смотрите <a href="/srochno/">подачу под ключ</a>: по Испании место гарантировано, хоть на завтра.</p>
+    </div>
+  </section>
+  <section class="surface">
+    <div class="wrap two">
+      <div>
+        <div class="eyebrow">Вопросы</div>
+        <h2 style="margin-top:12px;margin-bottom:12px">Как это работает</h2>
+        {faq.map(([q, a], i) => (<details open={i === 0}><summary>{q}</summary><p>{a}</p></details>))}
+      </div>
+      <LeadForm heading="Поставить в очередь бота" />
+    </div>
+  </section>
+</Base>
