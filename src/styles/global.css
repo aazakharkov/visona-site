@@ -4,8 +4,26 @@
   --stamp:#C4362B; --ok:#1C7A52;
   --shadow:0 1px 2px rgba(21,28,26,.06),0 8px 24px rgba(21,28,26,.06);
   --radius:14px; --maxw:1120px;
+  --topbar:rgba(244,246,244,.92);
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --paper:#0E1413; --surface:#161E1C; --ink:#ECF1EE; --ink-soft:#9DACA7;
+    --line:#2A3633; --accent:#8DA4FF; --accent-soft:#1B2547; --on-accent:#0E1413;
+    --stamp:#E8776B; --ok:#5DC79A;
+    --shadow:0 1px 2px rgba(0,0,0,.4),0 10px 30px rgba(0,0,0,.35);
+    --topbar:rgba(14,20,19,.92);
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#0E1413; --surface:#161E1C; --ink:#ECF1EE; --ink-soft:#9DACA7;
+  --line:#2A3633; --accent:#8DA4FF; --accent-soft:#1B2547; --on-accent:#0E1413;
+  --stamp:#E8776B; --ok:#5DC79A;
+  --shadow:0 1px 2px rgba(0,0,0,.4),0 10px 30px rgba(0,0,0,.35);
+  --topbar:rgba(14,20,19,.92);
 }
 *{box-sizing:border-box}
+[hidden]{display:none!important}
 html{scroll-behavior:smooth}
 body{margin:0;background:var(--paper);color:var(--ink);font-family:"Golos Text",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;font-size:16px;line-height:1.55;-webkit-font-smoothing:antialiased}
 img{max-width:100%;height:auto}
@@ -21,7 +39,7 @@ section{padding-block:clamp(44px,6.5vw,82px)}
 .muted{color:var(--ink-soft)}
 .note{font-size:14px;color:var(--ink-soft);max-width:72ch}
 .surface{background:var(--surface);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
-.topbar{position:sticky;top:env(safe-area-inset-top,0px);z-index:30;background:rgba(244,246,244,.92);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+.topbar{position:sticky;top:env(safe-area-inset-top,0px);z-index:30;background:var(--topbar);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
 .topbar-in{display:flex;align-items:center;gap:18px;height:64px}
 .brand{display:flex;align-items:baseline;gap:9px;font-family:"Unbounded",sans-serif;font-weight:600;font-size:17px;letter-spacing:.05em;text-decoration:none}
 .brand span{font-family:"Golos Text",sans-serif;font-weight:500;font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--ink-soft)}
@@ -33,6 +51,15 @@ section{padding-block:clamp(44px,6.5vw,82px)}
 .btn-primary{background:var(--accent);color:var(--on-accent)}
 .btn-ghost{border-color:var(--line);background:var(--surface);color:var(--ink)}
 .btn-sm{padding:9px 16px;font-size:14px}
+.theme-toggle{display:inline-flex;align-items:center;justify-content:center;width:38px;height:38px;border:1px solid var(--line);background:var(--surface);color:var(--ink);border-radius:999px;cursor:pointer;flex:none;font:inherit}
+.theme-toggle svg{width:18px;height:18px;display:block}
+.theme-toggle .icon-dark{display:none}
+:root[data-theme="dark"] .theme-toggle .icon-dark{display:block}
+:root[data-theme="dark"] .theme-toggle .icon-light{display:none}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]) .theme-toggle .icon-dark{display:block}
+  :root:not([data-theme="light"]) .theme-toggle .icon-light{display:none}
+}
 .btn:focus-visible,a:focus-visible,summary:focus-visible,input:focus-visible,textarea:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
 .cta-row{display:flex;flex-wrap:wrap;gap:12px;margin-top:26px}
 .stamp{display:inline-block;border:2px solid var(--stamp);color:var(--stamp);border-radius:8px;padding:6px 12px 5px;font-weight:700;font-size:12px;letter-spacing:.16em;text-transform:uppercase;transform:rotate(-3deg)}
