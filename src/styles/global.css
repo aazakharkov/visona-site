@@ -249,3 +249,19 @@ footer{border-top:1px solid var(--line);padding-block:34px;font-size:13.5px;colo
 .cta-strip{display:flex;flex-wrap:wrap;gap:18px;align-items:center;justify-content:space-between;padding:clamp(20px,3vw,30px);border-radius:var(--radius);border:1px solid var(--line);background:var(--surface);box-shadow:var(--shadow)}
 .cta-strip h3{font-size:20px}
 .cta-strip p{color:var(--ink-soft);font-size:14.5px;margin-top:6px;max-width:56ch}
+/* доверие и отзывы */
+.trust{display:flex;flex-wrap:wrap;gap:8px 18px;list-style:none;padding:0;margin-top:20px;font-size:13.5px;color:var(--ink-soft)}
+.trust li{position:relative;padding-left:20px}
+.trust li::before{content:"";position:absolute;left:0;top:4px;width:13px;height:13px;border-radius:50%;background:var(--ok);opacity:.18}
+.trust li::after{content:"";position:absolute;left:4px;top:7px;width:5px;height:2.5px;border-left:1.6px solid var(--ok);border-bottom:1.6px solid var(--ok);transform:rotate(-45deg)}
+.revs{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:16px;margin-top:26px}
+.rev{display:flex;flex-direction:column;gap:12px;padding:20px;border:1px solid var(--line);border-radius:var(--radius);background:var(--surface);box-shadow:var(--shadow-sm);transition:transform .18s ease,box-shadow .18s ease}
+.rev:hover{transform:translateY(-2px);box-shadow:var(--shadow)}
+.rev-head{display:flex;gap:12px;align-items:center}
+.rev-head .cflag{width:30px;margin:0}
+.rev-head b{display:block;font-size:15px}
+.rev-head small{display:block;font-size:12.5px;color:var(--ink-soft)}
+.rev p{font-size:14.5px;line-height:1.5}
+.rev a{margin-top:auto;font-size:13.5px;font-weight:600;color:var(--accent);text-decoration:none}
+.rev a::after{content:" →"}
+@media (max-width:880px){.two>div[style*="sticky"]{position:static!important}}

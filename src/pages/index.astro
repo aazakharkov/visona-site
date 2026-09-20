@@ -3,45 +3,46 @@ import Base from '../layouts/Base.astro';
 import LeadForm from '../components/LeadForm.astro';
 import site from '../data/site.json';
 import countries from '../data/countries.json';
+import reviews from '../data/reviews.json';
 import { flags } from '../data/flags.js';
 import { tg } from '../lib/tg.js';
-const faq = [
-  ['Вы гарантируете, что визу дадут?', 'Нет, и никто не может: решение принимает консульство. Мы отвечаем за то, чтобы пакет документов был собран правильно и шансы были максимальными. Обещание стопроцентной гарантии это либо манипуляция, либо коррупция.'],
-  ['А если откажут?', 'Разбираем причину и подаемся повторно. Наши услуги в этом случае бесплатны, заново оплачиваются только обязательные сборы, потому что их забираем не мы.'],
-  ['Из чего складывается итоговая сумма?', 'Из трех частей: наша работа, обязательные сборы консульства и визового центра и, если иначе не записаться, стоимость бота. Полный расчет вы видите до оплаты.'],
-  ['Я не в Москве, это проблема?', 'Нет, работаем со всей Россией онлайн. По Италии подаваться нужно строго по постоянной регистрации, подскажем нужный центр.'],
-  ['Зачем нужен бот для записи?', 'В сезон свободные слоты разбирают за минуты, а в части регионов записаться вручную невозможно. Бот отслеживает освободившиеся даты и занимает их автоматически.'],
-];
+import { faq } from '../data/faq.js';
 const jsonld = {
   '@context': 'https://schema.org',
   '@type': 'FAQPage',
   mainEntity: faq.map(([q, a]) => ({ '@type': 'Question', name: q, acceptedAnswer: { '@type': 'Answer', text: a } })),
 };
 const min = Math.min(...countries.map((c) => c.price));
+const tgMain = 'Здравствуйте! Хочу оформить визу.\nСтрана: \nДаты поездки: ';
+const tgSpain = 'Здравствуйте! Хочу подачу в Испанию под ключ.\nЖелаемая дата подачи: \nСколько человек: ';
 ---
 <Base
-  title="VISONA Travel — визы в Европу, Великобританию, США и Японию"
-  description={`Оформление виз с личным сопровождением: разбор ситуации, запись в визовый центр, документы и поддержка до решения консульства. Наша работа от ${min.toLocaleString('ru-RU')} ₽ за человека.`}
+  title="VISONA Travel: визы в Европу, Великобританию, США и Японию"
+  description={`Помогаем получить визу: запись в визовый центр, документы, анкета и поддержка до решения консульства. 100+ одобренных виз. Наша работа от ${min.toLocaleString('ru-RU')} ₽ за человека.`}
   jsonld={jsonld}
 >
   <section class="hero">
     <div class="aurora"></div>
     <div class="wrap two">
       <div>
-        <span class="stamp">Визы без агентского конвейера</span>
-        <h1 style="margin-top:20px">Визы для тех, кто уже выбрал поездку</h1>
-        <p class="note" style="font-size:18px;margin-top:18px">Разбираем вашу ситуацию, ловим слот, собираем пакет документов и остаемся на связи до решения консульства. С вами работают два человека, которые сами постоянно подаются на визы, а не колл-центр.</p>
+        <span class="stamp">100+ одобренных виз</span>
+        <h1 style="margin-top:20px">Визы в Европу, Великобританию и США</h1>
+        <p class="note" style="font-size:18px;margin-top:18px">Разбираем ваш случай, записываем в визовый центр, собираем документы и ведем до решения консульства. Нас двое, и мы сами постоянно подаемся на визы.</p>
         <div class="cta-row">
-          <a class="btn btn-primary" href={tg('Здравствуйте! Хочу оформить визу.\nСтрана: \nДаты поездки: ')} rel="noopener" data-goal="tg">Написать в Telegram</a>
-          <a class="btn btn-ghost" href="/tseny/">Смотреть цены</a>
+          <a class="btn btn-primary" href={tg(tgMain)} rel="noopener" data-goal="tg">Написать в Telegram</a>
+          <a class="btn btn-ghost" href="/tseny/">Цены</a>
           <a class="btn btn-ghost" href="/srochno/">Нужно срочно</a>
         </div>
-        <p class="note" style="margin-top:16px">Отвечаем в Telegram, обычно в течение часа. Первая консультация по вашему случаю бесплатна.</p>
+        <ul class="trust">
+          <li>Ответ в Telegram за час</li>
+          <li>Первая консультация бесплатно</li>
+          <li>Повторная подача после отказа бесплатно</li>
+        </ul>
       </div>
       <div class="facts">
-        <div class="fact"><b>80+</b><small>человек получили визу во Францию через нас</small></div>
-        <div class="fact"><b>9 стран</b><small>Шенген, Великобритания, США, Япония</small></div>
-        <div class="fact"><b>от {min.toLocaleString('ru-RU')} ₽</b><small>стоимость нашей работы за человека</small></div>
+        <div class="fact"><b>100+</b><small>одобренных виз у наших клиентов</small></div>
+        <div class="fact"><b>12 из 12</b><small>одобрений по Великобритании</small></div>
+        <div class="fact"><b>от {min.toLocaleString('ru-RU')} ₽</b><small>наша работа за человека, сборы отдельно</small></div>
       </div>
     </div>
   </section>
@@ -60,40 +61,60 @@ const min = Math.min(...countries.map((c) => c.price));
           </a>
         ))}
       </div>
-      <p class="note" style="margin-top:20px">Цена указана за нашу работу для одного человека. Консульские и сервисные сборы оплачиваются отдельно, напрямую консульству и визовому центру. <a href="/tseny/">Полный прайс</a>.</p>
+      <p class="note" style="margin-top:20px">Цена за нашу работу для одного человека. Консульский и сервисный сборы вы платите напрямую консульству и визовому центру. <a href="/tseny/">Полный прайс</a>.</p>
     </div>
   </section>
 
   <section>
     <div class="wrap">
+      <div class="eyebrow">Отзывы</div>
+      <h2 style="margin-top:12px">Кто уже получил визу</h2>
+      <p class="note" style="margin-top:12px;font-size:16px">Оригиналы отзывов со скриншотами лежат в нашем Telegram-канале, ссылка под каждой карточкой. Имена изменены.</p>
+      <div class="revs">
+        {reviews.map((r) => (
+          <article class="rev">
+            <div class="rev-head">
+              <span class="cflag" set:html={flags[r.slug]} />
+              <div><b>{r.name}</b><small>{r.country}, {r.date}</small></div>
+            </div>
+            <p>{r.text}</p>
+            <a href={`${site.channel}/${r.post}`} rel="noopener" target="_blank">Отзыв в канале</a>
+          </article>
+        ))}
+      </div>
+      <div class="cta-row"><a class="btn btn-ghost" href={site.channel} rel="noopener" target="_blank">Все отзывы по тегу #отзывы</a></div>
+    </div>
+  </section>
+
+  <section style="padding-top:0">
+    <div class="wrap">
       <div class="offer">
-        <div class="offer-eyebrow">Испания, гарантированный слот</div>
+        <div class="offer-eyebrow">Испания, гарантированная дата</div>
         <h2 style="margin-top:12px">Подача в любой день, хоть завтра</h2>
-        <p>Свободных дат в визовых центрах почти нет, но у нас есть готовые места в листе подачи. Документы готовим и заносим мы, вы приезжаете один раз и только на биометрию. Если биометрия уже сдана, приезжать не нужно вовсе.</p>
+        <p>Свободных дат в визовых центрах почти нет, а у нас есть места в листе подачи. Документы готовим и заносим мы. Вы приезжаете один раз, на биометрию, а если она уже сдана, можно не приезжать совсем.</p>
         <span class="offer-price">от 50 000 ₽ за человека</span>
         <div class="offer-grid">
-          <div class="offer-item"><b>Дата гарантирована</b><span>Не ждем, пока слот появится в продаже</span></div>
+          <div class="offer-item"><b>Дата гарантирована</b><span>Подтверждаем до оплаты</span></div>
           <div class="offer-item"><b>Все сборы включены</b><span>Консульский, сервисный и доставка паспорта</span></div>
           <div class="offer-item"><b>Анкета и брони</b><span>Авиа и отель под визу готовим сами</span></div>
           <div class="offer-item"><b>Вся Россия</b><span>Документы принимаем СДЭКом</span></div>
         </div>
         <div class="cta-row">
-          <a class="btn btn-ghost" href={tg('Здравствуйте! Хочу подачу в Испанию под ключ.\nЖелаемая дата подачи: \nСколько человек: ')} rel="noopener" data-goal="tg_spain">Забрать дату в Telegram</a>
+          <a class="btn btn-ghost" href={tg(tgSpain)} rel="noopener" data-goal="tg_spain">Забрать дату в Telegram</a>
           <a class="btn btn-ghost" href="/visa/spain/" style="background:transparent;color:#fff;border-color:rgba(255,255,255,.5)">Подробнее об Испании</a>
         </div>
       </div>
     </div>
   </section>
 
-  <section>
+  <section style="padding-top:0">
     <div class="wrap">
       <div class="eyebrow">Отдельные услуги</div>
       <h2 style="margin-top:12px">Срочно, VIP или только запись</h2>
-      <p class="note" style="margin-top:12px;font-size:17px">Слоты во Францию, Испанию и Италию разбирают за минуты. Если свободных дат уже нет или вам нужна только запись без сопровождения, берите услугу отдельно.</p>
       <div class="svc">
-        <a class="card" href="/srochno/"><div class="row"><h3>Подача под ключ</h3><span class="price">от 50 000 ₽</span></div><p>Без записи и поиска слотов. Документы заносим мы, вы приезжаете только на биометрию. Испания, Италия, Франция, все сборы включены.</p><div class="tags"><span class="tag">Испания, Италия, Франция</span></div></a>
-        <a class="card" href="/bot/"><div class="row"><h3>Запись ботом</h3><span class="price">от 6 500 ₽</span></div><p>Только запись в визовый центр, без нашего сопровождения. Бот ловит освободившиеся даты круглосуточно, платите по факту записи.</p><div class="tags"><span class="tag">Франция, Испания, Италия, Кипр, США</span></div></a>
-        <a class="card" href="/srochno/"><div class="row"><h3>VIP-зал и Prime Time</h3><span class="price">от 13 000 ₽</span></div><p>Официальные услуги визовых центров: подача без общей очереди, вне обычных часов или без записи. Мобильная биометрия у вас дома.</p><div class="tags"><span class="tag">Франция, Испания, Италия</span></div></a>
+        <a class="card" href="/srochno/"><div class="row"><h3>Подача под ключ</h3><span class="price">от 50 000 ₽</span></div><p>Без записи и поиска слотов. Документы заносим мы, вы приезжаете только на биометрию. Все сборы включены.</p><div class="tags"><span class="tag">Испания, Италия, Франция</span></div></a>
+        <a class="card" href="/bot/"><div class="row"><h3>Запись ботом</h3><span class="price">от 6 500 ₽</span></div><p>Только запись в визовый центр, без сопровождения. Бот круглосуточно ловит освободившиеся даты, платите по факту записи.</p><div class="tags"><span class="tag">Франция, Испания, Италия, Кипр, США</span></div></a>
+        <a class="card" href="/srochno/"><div class="row"><h3>VIP-зал и Prime Time</h3><span class="price">от 13 000 ₽</span></div><p>Официальные услуги визовых центров: подача без общей очереди, вечером или без записи. Мобильная биометрия у вас дома.</p><div class="tags"><span class="tag">Франция, Испания, Италия</span></div></a>
       </div>
     </div>
   </section>
@@ -101,12 +122,12 @@ const min = Math.min(...countries.map((c) => c.price));
   <section class="surface">
     <div class="wrap">
       <div class="eyebrow">Как работаем</div>
-      <h2 style="margin-top:12px">Четыре шага от сообщения до паспорта с визой</h2>
+      <h2 style="margin-top:12px">Четыре шага до паспорта с визой</h2>
       <div class="steps">
-        <div class="step"><h3>Разбираем ситуацию</h3><p>Вы пишете, куда и когда хотите поехать. Мы говорим, реально ли успеть, в какую страну подаваться выгоднее и сколько это стоит целиком, вместе со сборами.</p></div>
-        <div class="step"><h3>Ловим слот</h3><p>Записываем в визовый центр: руками там, где это возможно, или через бота, если свободных дат нет. Дату согласуем заранее.</p></div>
-        <div class="step"><h3>Собираем пакет</h3><p>Маршрутный лист, сопроводительное письмо, брони, справки, анкета. Проверяем каждый документ и объясняем, что консул хочет увидеть.</p></div>
-        <div class="step"><h3>Ведем до решения</h3><p>Готовим к подаче, остаемся на связи в день визита и отслеживаем статус. Если откажут, повторная подача с нами бесплатна.</p></div>
+        <div class="step"><h3>Разбираем ситуацию</h3><p>Вы пишете, куда и когда едете. Мы говорим, успеваете ли, в какую страну подаваться выгоднее и сколько это стоит вместе со сборами.</p></div>
+        <div class="step"><h3>Записываем</h3><p>Где можно, записываем вручную. Где свободных дат нет, подключаем бота. Дату согласуем с вами заранее.</p></div>
+        <div class="step"><h3>Собираем пакет</h3><p>Маршрутный лист, сопроводительное письмо, брони, справки, анкета. Проверяем каждый документ и объясняем, что хочет увидеть консул.</p></div>
+        <div class="step"><h3>Ведем до решения</h3><p>Готовим к подаче, отвечаем в день визита и следим за статусом. Если откажут, повторная подача с нами бесплатна.</p></div>
       </div>
     </div>
   </section>
@@ -120,11 +141,15 @@ const min = Math.min(...countries.map((c) => c.price));
           <details open={i === 0}><summary>{q}</summary><p>{a}</p></details>
         ))}
       </div>
-      <div>
+      <div style="position:sticky;top:90px">
         <div class="panel">
           <h3>Кто с вами работает</h3>
-          <p class="note" style="margin-top:10px">Александр: 57 стран за четыре года, ведет визовое направление и сложные случаи. Виолетта: блог о путешествиях, общение с клиентами и подготовка к поездке.</p>
+          <p class="note" style="margin-top:10px">Александр ведет визы и сложные случаи, был в 60 странах. Виолетта ведет блог о путешествиях, общается с клиентами и помогает подготовиться к поездке.</p>
           <p class="note" style="margin-top:12px"><a href="/o-nas/">Подробнее о нас</a></p>
+        </div>
+        <div class="cta-strip" style="margin-top:16px">
+          <div><h3>Не нашли свой вопрос?</h3><p>Напишите в Telegram, ответим в течение часа.</p></div>
+          <a class="btn btn-primary" href={tg(tgMain)} rel="noopener" data-goal="tg_faq">Спросить</a>
         </div>
       </div>
     </div>

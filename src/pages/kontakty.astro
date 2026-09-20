@@ -4,7 +4,7 @@ import LeadForm from '../components/LeadForm.astro';
 import site from '../data/site.json';
 const tel = site.phone.replace(/[^+\d]/g, '');
 ---
-<Base title="Контакты — VISONA Travel" description="Напишите в Telegram, WhatsApp или на почту: ответим в течение часа и посчитаем стоимость визы для вашей поездки.">
+<Base title="Контакты | VISONA Travel" description="Напишите в Telegram, WhatsApp или на почту: ответим в течение часа и посчитаем стоимость визы для вашей поездки.">
   <div class="wrap crumbs"><a href="/">Главная</a> / Контакты</div>
   <section style="padding-top:24px">
     <div class="wrap two">
@@ -18,7 +18,7 @@ const tel = site.phone.replace(/[^+\d]/g, '');
           <a class="link-row" href={`mailto:${site.email}`}>Почта <small>{site.email}</small></a>
           <a class="link-row" href={site.instagram} rel="noopener">Instagram <small>блог Виолетты</small></a>
         </div>
-        <p class="note" style="margin-top:20px">{site.legalName}, {site.inn}. {site.ogrn}. Мы не являемся визовым центром или консульством и не влияем на решение по визе.</p>
+        <p class="note" style="margin-top:20px">{site.legalName}, {site.inn}. {site.ogrn}. Мы не визовый центр и не консульство и на решение по визе не влияем.</p>
       </div>
       <LeadForm heading="Написать нам" />
     </div>
