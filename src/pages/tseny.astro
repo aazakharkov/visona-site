@@ -25,12 +25,12 @@ const urgent = [
       <p class="note" style="margin-top:16px;font-size:17px">Ниже стоимость нашей работы за одного человека. Консульский и сервисный сборы оплачиваются отдельно, напрямую консульству и визовому центру.</p>
       <div class="table-wrap">
         <table>
-          <thead><tr><th>Страна</th><th>Тип визы</th><th>Наша работа</th></tr></thead>
+          <thead><tr><th>Страна</th><th class="hide-sm">Тип визы</th><th>Наша работа</th></tr></thead>
           <tbody>
             {countries.map((c) => (
               <tr>
-                <td><a href={`/visa/${c.slug}/`}>{c.name}</a></td>
-                <td class="muted">{c.type}</td>
+                <td><a href={`/visa/${c.slug}/`}>{c.name}</a><div class="muted show-sm">{c.type}</div></td>
+                <td class="muted hide-sm">{c.type}</td>
                 <td>{c.price ? `от ${c.price.toLocaleString('ru-RU')} ₽` : 'по запросу'}</td>
               </tr>
             ))}

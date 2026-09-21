@@ -1,60 +1,22 @@
 ---
-import site from '../data/site.json';
+import { tg } from '../lib/tg.js';
+// Заявка через Telegram. Серверной формы пока нет, поэтому показываем одну понятную кнопку вместо полей.
 const { heading = 'Расскажите, куда собираетесь', country = '' } = Astro.props;
+const text = `Здравствуйте! Хочу оформить визу.\nСтрана: ${country}\nДаты поездки: \nГород подачи: `;
 ---
-<div class="panel" id="zayavka">
-  <div class="eyebrow">Заявка</div>
-  <h2 style="margin-top:10px">{heading}</h2>
-  <p class="note" style="margin-top:12px">Напишите страну, даты поездки и город подачи. Этого хватит, чтобы назвать срок и точную сумму со всеми сборами. Если поездка горит, так и скажите.</p>
-  <form id="lead-form" method="post" action={site.leadEndpoint || '/api/lead'} data-live={site.leadEndpoint ? '1' : '0'} novalidate>
-    <input type="hidden" name="country" value={country} />
-    <div aria-hidden="true" style="position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden"><label>Сайт<input type="text" name="website" tabindex="-1" autocomplete="off" /></label></div>
-    <input type="hidden" name="ts" value="" />
-    <div class="field">
-      <label for="lead-name">Имя</label>
-      <input id="lead-name" name="name" required autocomplete="name" />
-    </div>
-    <div class="field">
-      <label for="lead-contact">Телефон или Telegram</label>
-      <input id="lead-contact" name="contact" required autocomplete="tel" />
-    </div>
-    <div class="field">
-      <label for="lead-text">Куда и когда едете</label>
-      <textarea id="lead-text" name="message" rows="3"></textarea>
-    </div>
-    <label class="consent" for="lead-consent">
-      <input type="checkbox" id="lead-consent" name="consent" required />
-      <span>Я согласен на обработку персональных данных в целях ответа на заявку и ознакомился с <a href="/politika/">политикой конфиденциальности</a>.</span>
-    </label>
-    <div class="cta-row">
-      <button class="btn btn-primary" type="submit">Отправить заявку</button>
-      <a class="btn btn-ghost" href={site.telegram} rel="noopener">Написать в Telegram</a>
-    </div>
-    <p class="form-note" id="lead-status">{site.leadEndpoint ? 'Ответим в течение часа.' : 'Пока форма не подключена к серверу и открывает Telegram.'}</p>
-  </form>
+<div class="panel ctacard" id="zayavka">
+  <div>
+    <div class="eyebrow">Заявка</div>
+    <h2 style="margin-top:10px">{heading}</h2>
+    <p class="note" style="margin-top:12px">Напишите страну, даты поездки и город подачи. Этого хватит, чтобы назвать срок и точную сумму со всеми сборами. Если поездка горит, так и скажите.</p>
+    <ul class="trust" style="margin-top:14px">
+      <li>Ответ в течение часа, с 10 до 21</li>
+      <li>Первая консультация бесплатно</li>
+      <li>Итоговая сумма до оплаты</li>
+    </ul>
+  </div>
+  <div class="ctacard-go">
+    <a class="btn btn-primary btn-lg" href={tg(text)} rel="noopener" data-goal="tg_form">Написать в Telegram</a>
+    <small class="muted">Откроется чат с готовым сообщением, останется дописать детали.</small>
+  </div>
 </div>
-<script is:inline define:vars={{ tg: site.telegram }}>
-(function () {
-  var form = document.getElementById('lead-form');
-  if (!form) return;
-  form.dataset.started = String(Date.now());
-  form.addEventListener('submit', function (event) {
-    event.preventDefault();
-    if (!form.reportValidity()) return;
-    if (form.website && form.website.value) return;
-    var started = Number(form.dataset.started || 0);
-    if (started && Date.now() - started < 3000) return;
-    if (form.ts) form.ts.value = String(started);
-    var status = document.getElementById('lead-status');
-    var endpointReady = form.dataset.live === '1';
-    if (!endpointReady) { window.open(tg, '_blank', 'noopener'); status.textContent = 'Открыли Telegram: напишите там пару слов о поездке.'; return; }
-    var data = new URLSearchParams(new FormData(form));
-    data.set('page', location.pathname);
-    var btn = form.querySelector('button[type=submit]');
-    if (btn) btn.disabled = true;
-    fetch(form.action, { method: 'POST', body: data })
-      .then(function (r) { status.textContent = r.ok ? 'Заявка отправлена, ответим в течение часа.' : 'Не получилось отправить. Напишите нам в Telegram.'; if (r.ok) form.reset(); if (btn) btn.disabled = false; })
-      .catch(function () { status.textContent = 'Не получилось отправить. Напишите нам в Telegram.'; if (btn) btn.disabled = false; });
-  });
-})();
-</script>

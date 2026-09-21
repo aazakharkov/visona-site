@@ -130,6 +130,27 @@ const org = {
   });
 })();
 (function () {
+  // Откуда пришел человек. Ссылка из блога: visonatravel.com/?from=blog. Метка живет 30 дней.
+  var KEY = 'visona-src', src = 'site';
+  try {
+    var p = new URLSearchParams(location.search).get('from');
+    if (p) localStorage.setItem(KEY, JSON.stringify({ s: p, t: Date.now() }));
+    var saved = JSON.parse(localStorage.getItem(KEY) || 'null');
+    if (saved && Date.now() - saved.t < 30 * 864e5) src = saved.s;
+  } catch (e) {}
+  var tag = src === 'blog' ? 'Пишу с сайта, ссылка из блога Виолетты.' : 'Пишу с сайта.';
+  document.addEventListener('click', function (e) {
+    var a = e.target.closest && e.target.closest('a[href*="t.me/"]');
+    if (!a || a.href.indexOf('t.me/zakharkov_travel') > -1) return;
+    try {
+      var u = new URL(a.href), t = u.searchParams.get('text') || 'Здравствуйте!';
+      if (t.indexOf('Пишу с сайта') > -1) return;
+      t = t.indexOf('Здравствуйте!') === 0 ? t.replace('Здравствуйте!', 'Здравствуйте! ' + tag) : tag + '\n' + t;
+      a.href = u.origin + u.pathname + '?text=' + encodeURIComponent(t);
+    } catch (err) {}
+  }, true);
+})();
+(function () {
   document.addEventListener('click', function (e) {
     var a = e.target.closest && e.target.closest('a[data-goal]');
     if (a && typeof window.visonaGoal === 'function') window.visonaGoal(a.getAttribute('data-goal'), location.pathname);

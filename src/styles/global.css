@@ -307,3 +307,20 @@ footer{border-top:1px solid var(--line);padding-block:34px;font-size:13.5px;colo
 .tripcheck .field{margin-top:0}
 .tc-out[data-s=warn]{border-left-color:#D08A1E}
 .tc-out[data-s=bad]{border-left-color:var(--stamp)}
+/* Заявка-карточка */
+.ctacard{display:grid;grid-template-columns:1.4fr 1fr;gap:28px;align-items:center}
+.ctacard-go{display:flex;flex-direction:column;gap:10px;align-items:stretch;text-align:center}
+.btn-lg{padding:18px 26px;font-size:17px}
+@media (max-width:800px){.ctacard{grid-template-columns:1fr}}
+/* Скриншоты отзывов */
+.shots{display:flex;gap:14px;overflow-x:auto;scroll-snap-type:x mandatory;padding:6px 2px 14px;margin-top:26px;-webkit-overflow-scrolling:touch}
+.shot{flex:0 0 auto;width:min(240px,70vw);padding:0;border:1px solid var(--line);border-radius:16px;overflow:hidden;background:var(--surface);cursor:zoom-in;scroll-snap-align:start;box-shadow:var(--shadow-sm);transition:transform .18s ease,box-shadow .18s ease}
+.shot:hover{transform:translateY(-3px);box-shadow:var(--shadow)}
+.shot img{display:block;width:100%;height:auto}
+.shot-box{padding:0;border:none;border-radius:16px;max-width:min(560px,94vw);max-height:92vh;background:transparent;overflow:visible}
+.shot-box::backdrop{background:rgba(8,10,14,.78)}
+.shot-box img{display:block;max-width:100%;max-height:92vh;border-radius:16px}
+.shot-x{position:absolute;top:-14px;right:-14px;width:36px;height:36px;border-radius:50%;border:none;background:var(--surface);color:var(--ink);font-size:22px;cursor:pointer;box-shadow:var(--shadow)}
+/* Цены на телефоне: тип визы под названием страны */
+.show-sm{display:none}
+@media (max-width:640px){.hide-sm{display:none}.show-sm{display:block;font-size:13px;margin-top:3px}th,td{padding:12px}}

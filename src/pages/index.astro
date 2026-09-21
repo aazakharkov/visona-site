@@ -8,6 +8,7 @@ import { flags } from '../data/flags.js';
 import { tg } from '../lib/tg.js';
 import { faq } from '../data/faq.js';
 import TripCheck from '../components/TripCheck.astro';
+import ReviewShots from '../components/ReviewShots.astro';
 const jsonld = {
   '@context': 'https://schema.org',
   '@type': 'FAQPage',
@@ -72,7 +73,8 @@ const tgSpain = 'Здравствуйте! Хочу подачу в Испани
     <div class="wrap">
       <div class="eyebrow">Отзывы</div>
       <h2 style="margin-top:12px">Кто уже получил визу</h2>
-      <p class="note" style="margin-top:12px;font-size:16px">Оригиналы отзывов со скриншотами лежат в нашем Telegram-канале, ссылка под каждой карточкой. Имена изменены.</p>
+      <p class="note" style="margin-top:12px;font-size:16px">Настоящие сообщения клиентов, имена и фото скрыты. Больше отзывов в нашем Telegram-канале по тегу #отзывы.</p>
+      <ReviewShots>
       <div class="revs">
         {reviews.map((r) => (
           <article class="rev">
@@ -85,7 +87,8 @@ const tgSpain = 'Здравствуйте! Хочу подачу в Испани
           </article>
         ))}
       </div>
-      <div class="cta-row"><a class="btn btn-ghost" href={site.channel} rel="noopener" target="_blank">Все отзывы по тегу #отзывы</a></div>
+      </ReviewShots>
+      <div class="cta-row"><a class="btn btn-primary" href={tg(tgMain)} rel="noopener" data-goal="tg_reviews">Хочу так же</a><a class="btn btn-ghost" href={site.channel} rel="noopener" target="_blank">Все отзывы по тегу #отзывы</a></div>
     </div>
   </section>
 
