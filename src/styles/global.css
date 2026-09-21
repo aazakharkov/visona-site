@@ -265,3 +265,13 @@ footer{border-top:1px solid var(--line);padding-block:34px;font-size:13.5px;colo
 .rev a{margin-top:auto;font-size:13.5px;font-weight:600;color:var(--accent);text-decoration:none}
 .rev a::after{content:" →"}
 @media (max-width:880px){.two>div[style*="sticky"]{position:static!important}}
+.guide{margin-top:28px;font-size:16.5px;line-height:1.7}
+.guide h2{font-size:26px;margin:36px 0 12px}
+.guide h3{margin:26px 0 8px}
+.guide p,.guide ul,.guide ol{margin:0 0 14px}
+.guide ul,.guide ol{padding-left:22px}
+.guide img{border-radius:12px;border:1px solid var(--line)}
+.hard{display:grid;grid-template-columns:1.1fr .9fr;gap:28px;align-items:center;padding:clamp(24px,4vw,44px);border-radius:26px;background:var(--surface);border:1px solid var(--line);box-shadow:var(--shadow)}
+.hard ul{list-style:none;padding:0;display:grid;gap:10px}
+.hard li{padding:12px 16px;border-radius:12px;background:var(--surface-2);border:1px solid var(--line);font-size:14.5px;font-weight:500}
+@media (max-width:880px){.hard{grid-template-columns:1fr}}

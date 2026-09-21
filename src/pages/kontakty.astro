@@ -2,9 +2,8 @@
 import Base from '../layouts/Base.astro';
 import LeadForm from '../components/LeadForm.astro';
 import site from '../data/site.json';
-const tel = site.phone.replace(/[^+\d]/g, '');
 ---
-<Base title="Контакты | VISONA Travel" description="Напишите в Telegram, WhatsApp или на почту: ответим в течение часа и посчитаем стоимость визы для вашей поездки.">
+<Base title="Контакты | VISONA Travel" description="Напишите в Telegram или на почту: ответим в течение часа и посчитаем стоимость визы для вашей поездки.">
   <div class="wrap crumbs"><a href="/">Главная</a> / Контакты</div>
   <section style="padding-top:24px">
     <div class="wrap two">
@@ -13,8 +12,6 @@ const tel = site.phone.replace(/[^+\d]/g, '');
         <p class="note" style="font-size:17px;margin-top:16px">Быстрее всего в Telegram. {site.workHours}.</p>
         <div class="links">
           <a class="link-row" href={site.telegram} rel="noopener">Telegram <small>{site.telegramHandle}</small></a>
-          <a class="link-row" href={`tel:${tel}`}>Телефон <small>{site.phoneHuman}</small></a>
-          <a class="link-row" href={site.whatsapp} rel="noopener">WhatsApp <small>{site.phoneHuman}</small></a>
           <a class="link-row" href={`mailto:${site.email}`}>Почта <small>{site.email}</small></a>
           <a class="link-row" href={site.instagram} rel="noopener">Instagram <small>блог Виолетты</small></a>
         </div>

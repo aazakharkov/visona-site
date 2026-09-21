@@ -11,6 +11,7 @@ const nav = [
   ['/srochno/', 'Срочно'],
   ['/bot/', 'Бот'],
   ['/tseny/', 'Цены'],
+  ['/gaydy/', 'Гайды'],
   ['/o-nas/', 'О нас'],
   ['/kontakty/', 'Контакты'],
 ];
@@ -19,7 +20,6 @@ const org = {
   "@type": "TravelAgency",
   name: site.name,
   url: Astro.site?.href,
-  telephone: site.phone,
   email: site.email,
   areaServed: "RU",
   sameAs: [site.telegram, site.instagram, site.channel],
@@ -98,12 +98,12 @@ const org = {
       <a href="/srochno/">Срочная подача и VIP</a>
       <a href="/bot/">Запись ботом</a>
       <a href="/tseny/">Цены</a>
+      <a href="/gaydy/">Бесплатные гайды</a>
       <a href="/o-nas/">О нас</a>
       <a href="/kontakty/">Контакты</a>
     </div>
     <div>
       <a href={site.telegram} rel="noopener">Telegram {site.telegramHandle}</a>
-      <a href={`tel:${site.phone.replace(/[^+\d]/g, '')}`}>{site.phoneHuman}</a>
       <a href={`mailto:${site.email}`}>{site.email}</a>
       <a href="/politika/">Политика конфиденциальности</a>
     </div>

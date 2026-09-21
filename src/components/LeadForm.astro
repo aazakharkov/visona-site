@@ -30,7 +30,7 @@ const { heading = 'Расскажите, куда собираетесь', count
       <button class="btn btn-primary" type="submit">Отправить заявку</button>
       <a class="btn btn-ghost" href={site.telegram} rel="noopener">Написать в Telegram</a>
     </div>
-    <p class="form-note" id="lead-status">{site.leadEndpoint ? 'Ответим в течение часа в Telegram или по телефону.' : 'Пока форма не подключена к серверу и открывает Telegram.'}</p>
+    <p class="form-note" id="lead-status">{site.leadEndpoint ? 'Ответим в течение часа.' : 'Пока форма не подключена к серверу и открывает Telegram.'}</p>
   </form>
 </div>
 <script is:inline define:vars={{ tg: site.telegram }}>

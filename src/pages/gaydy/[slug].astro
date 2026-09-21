@@ -1,0 +1,35 @@
+---
+import Base from '../../layouts/Base.astro';
+import { guides } from '../../data/guides.js';
+import { tg } from '../../lib/tg.js';
+export function getStaticPaths() {
+  return guides.map((g) => ({ params: { slug: g.slug }, props: { g } }));
+}
+const { g } = Astro.props;
+const files = import.meta.glob('../../content/guides/*.md', { eager: true });
+const file = files[`../../content/guides/${g.slug}.md`];
+const Content = file ? file.Content : null;
+const ask = `Здравствуйте! Хочу получить гайд "${g.title}", когда он выйдет.`;
+---
+<Base title={`${g.title} | VISONA Travel`} description={g.desc} noindex={!Content} tgText={ask}>
+  <div class="wrap crumbs"><a href="/">Главная</a> / <a href="/gaydy/">Гайды</a> / {g.title}</div>
+  <section style="padding-top:24px">
+    <div class="wrap" style="max-width:780px">
+      <h1 style="font-size:clamp(28px,4.4vw,44px)">{g.title}</h1>
+      <p class="note" style="margin-top:14px;font-size:17px">{g.desc}</p>
+      {Content ? (
+        <article class="guide"><Content /></article>
+      ) : (
+        <div class="panel" style="margin-top:28px">
+          <h3>Гайд готовится</h3>
+          <p class="note" style="margin-top:10px">Напишите нам в Telegram, и мы пришлем гайд, как только он выйдет. Если вопрос срочный, разберем вашу ситуацию прямо в переписке.</p>
+          <div class="cta-row"><a class="btn btn-primary" href={tg(ask)} rel="noopener" data-goal="tg_guide">Получить гайд</a></div>
+        </div>
+      )}
+      <div class="cta-strip" style="margin-top:28px">
+        <div><h3>Не хотите разбираться сами?</h3><p>Возьмем этот этап на себя или проведем через всю подачу.</p></div>
+        <a class="btn btn-ghost" href={g.service}>Смотреть услугу</a>
+      </div>
+    </div>
+  </section>
+</Base>

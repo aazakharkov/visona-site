@@ -1,0 +1,28 @@
+---
+import Base from '../../layouts/Base.astro';
+import { guides } from '../../data/guides.js';
+import { flags } from '../../data/flags.js';
+const files = import.meta.glob('../../content/guides/*.md', { eager: true });
+const ready = (slug) => Boolean(files[`../../content/guides/${slug}.md`]);
+---
+<Base title="Бесплатные гайды по визам | VISONA Travel" description="Бесплатные инструкции по визам: запись в визовые центры, анкеты, документы и финансы, что делать после отказа." tgText={'Здравствуйте! Хочу получать новые гайды по визам.'}>
+  <div class="wrap crumbs"><a href="/">Главная</a> / Гайды</div>
+  <section class="hero" style="padding-top:24px">
+    <div class="aurora"></div>
+    <div class="wrap">
+      <span class="stamp">Бесплатно</span>
+      <h1 style="margin-top:20px">Гайды по визам</h1>
+      <p class="note" style="margin-top:16px;font-size:17px">Пошаговые инструкции для тех, кто хочет разобраться сам: как записаться, что писать в анкете, какие нужны документы. Если на каком-то шаге станет сложно, возьмем этот этап на себя.</p>
+      <div class="grid">
+        {guides.map((g) => (
+          <a class="card" href={`/gaydy/${g.slug}/`}>
+            {g.country && <span class="cflag" set:html={flags[g.country]} />}
+            <h3>{g.title}</h3>
+            <p>{g.desc}</p>
+            <div class="tags"><span class="tag">{ready(g.slug) ? 'Читать' : 'Скоро'}</span></div>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+</Base>
