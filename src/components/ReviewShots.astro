@@ -1,5 +1,6 @@
 ---
 import { getImage } from 'astro:assets';
+import site from '../data/site.json';
 // Скриншоты отзывов из src/assets/otzyvy. Если папка пустая, показываем то, что передано внутрь (текстовые карточки).
 const files = import.meta.glob('../assets/otzyvy/*.{jpg,jpeg,png,webp,JPG,JPEG,PNG}', { eager: true });
 const shots = await Promise.all(
@@ -7,7 +8,10 @@ const shots = await Promise.all(
     const src = files[k].default;
     const thumb = await getImage({ src, width: 420, format: 'webp' });
     const full = await getImage({ src, width: 1080, format: 'webp' });
-    return { thumb: thumb.src, full: full.src, w: thumb.attributes.width, h: thumb.attributes.height };
+    // Имя файла 01-1523.jpg: 01 это порядок, 1523 номер поста с отзывом в канале
+    const m = k.match(/-(\d+)\.\w+$/);
+    const post = m ? `${site.channel}/${m[1]}` : '';
+    return { thumb: thumb.src, full: full.src, w: thumb.attributes.width, h: thumb.attributes.height, post };
   })
 );
 ---
@@ -15,18 +19,21 @@ const shots = await Promise.all(
   <>
     <div class="shots">
       {shots.map((s, i) => (
-        <button class="shot" type="button" data-full={s.full} aria-label={`Открыть отзыв ${i + 1}`}>
-          <img src={s.thumb} width={s.w} height={s.h} loading={i < 3 ? "eager" : "lazy"} decoding="async" alt={`Скриншот отзыва клиента ${i + 1}`} />
-        </button>
+        <figure class="shot-item">
+          <button class="shot" type="button" data-full={s.full} data-post={s.post} aria-label={`Открыть отзыв ${i + 1}`}>
+            <img src={s.thumb} width={s.w} height={s.h} loading={i < 3 ? "eager" : "lazy"} decoding="async" alt={`Скриншот отзыва клиента ${i + 1}`} />
+          </button>
+          {s.post && <figcaption><a href={s.post} target="_blank" rel="noopener">Отзыв в канале</a></figcaption>}
+        </figure>
       ))}
     </div>
-    <dialog class="shot-box" id="shot-box"><img alt="Скриншот отзыва" /><button type="button" class="shot-x" aria-label="Закрыть">×</button></dialog>
+    <dialog class="shot-box" id="shot-box"><img alt="Скриншот отзыва" /><a class="btn btn-primary shot-link" target="_blank" rel="noopener">Открыть отзыв в канале</a><button type="button" class="shot-x" aria-label="Закрыть">×</button></dialog>
     <script is:inline>
     (function () {
       var box = document.getElementById('shot-box'); if (!box) return;
-      var img = box.querySelector('img');
+      var img = box.querySelector('img'), link = box.querySelector('.shot-link');
       document.querySelectorAll('.shot').forEach(function (b) {
-        b.addEventListener('click', function () { img.src = b.dataset.full; box.showModal(); });
+        b.addEventListener('click', function () { img.src = b.dataset.full; link.hidden = !b.dataset.post; if (b.dataset.post) link.href = b.dataset.post; box.showModal(); });
       });
       box.addEventListener('click', function (e) { if (e.target === box || e.target.classList.contains('shot-x')) box.close(); });
     })();
