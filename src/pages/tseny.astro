@@ -31,7 +31,7 @@ const urgent = [
               <tr>
                 <td><a href={`/visa/${c.slug}/`}>{c.name}</a></td>
                 <td class="muted">{c.type}</td>
-                <td>от {c.price.toLocaleString('ru-RU')} ₽</td>
+                <td>{c.price ? `от ${c.price.toLocaleString('ru-RU')} ₽` : 'по запросу'}</td>
               </tr>
             ))}
           </tbody>

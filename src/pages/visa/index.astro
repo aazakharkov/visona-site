@@ -10,11 +10,11 @@ import { flags } from '../../data/flags.js';
     <div class="wrap">
       <h1>Страны и визы</h1>
       <p class="note" style="margin-top:16px;font-size:17px">Выберите страну: на странице собраны сроки, список сборов, что входит в нашу работу и ответы на частые вопросы по этому направлению.</p>
-      <div class="grid">
+      <div class="grid grid5">
         {countries.map((c) => (
           <a class="card" href={`/visa/${c.slug}/`}>
             <span class="cflag" set:html={flags[c.slug]} />
-            <div class="row"><h3>{c.name}</h3><span class="price">от {c.price.toLocaleString('ru-RU')} ₽</span></div>
+            <div class="row"><h3>{c.name}</h3><span class="price">{c.price ? `от ${c.price.toLocaleString('ru-RU')} ₽` : 'по запросу'}</span></div>
             <p>{c.lead}</p>
             <div class="tags"><span class="tag">{c.type}</span></div>
           </a>

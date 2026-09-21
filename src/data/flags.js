@@ -20,6 +20,8 @@ const usaStars = () => {
 };
 
 export const flags = {
+  apec:
+    '<svg viewBox="0 0 60 40" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><rect width="60" height="40" fill="#0B4F8A"/><circle cx="30" cy="20" r="12" fill="none" stroke="#F7F7F7" stroke-width="1.6"/><ellipse cx="30" cy="20" rx="5.5" ry="12" fill="none" stroke="#F7F7F7" stroke-width="1.3"/><path d="M18 20h24M20 13.5h20M20 26.5h20" stroke="#F7F7F7" stroke-width="1.3"/><path d="M4 34c14-6 38-6 52 0" stroke="#3FB6A8" stroke-width="2" fill="none"/></svg>',
   france: stripesV(['#0B4EA2', '#F7F7F7', '#D8283B']),
   italy: stripesV(['#0E8A4A', '#F7F7F7', '#CE2B37']),
   hungary: stripesH(['#CE2939', '#F7F7F7', '#4A7A3B']),

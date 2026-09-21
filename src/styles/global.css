@@ -281,3 +281,15 @@ footer{border-top:1px solid var(--line);padding-block:34px;font-size:13.5px;colo
 .hard-list li:first-child::after{top:8px}
 .hard-cap{margin-top:18px;font-size:13px;color:var(--ink-soft)}
 @media (max-width:880px){.hard{grid-template-columns:1fr;gap:24px}}
+
+/* сетка стран по 5 */
+@media (min-width:1100px){.grid5{grid-template-columns:repeat(5,1fr);gap:14px}}
+@media (min-width:700px) and (max-width:1099px){.grid5{grid-template-columns:repeat(3,1fr)}}
+.grid5 .card{padding:18px}
+.grid5 .card h3{font-size:16px}
+.grid5 .card p{font-size:13.5px}
+.grid5 .tag{font-size:11.5px}
+.honest{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:14px;margin-top:26px}
+.honest>div{padding-top:16px;border-top:2px solid var(--accent)}
+.honest b{display:block;font-size:15.5px;margin-bottom:6px}
+.honest p{font-size:14px;color:var(--ink-soft)}

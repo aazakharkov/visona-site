@@ -12,22 +12,22 @@ const jsonld = {
   '@type': 'FAQPage',
   mainEntity: faq.map(([q, a]) => ({ '@type': 'Question', name: q, acceptedAnswer: { '@type': 'Answer', text: a } })),
 };
-const min = Math.min(...countries.map((c) => c.price));
+const min = Math.min(...countries.filter((c) => c.price).map((c) => c.price));
 const tgMain = 'Здравствуйте! Хочу оформить визу.\nСтрана: \nДаты поездки: ';
 const tgSpain = 'Здравствуйте! Хочу подачу в Испанию под ключ.\nЖелаемая дата подачи: \nСколько человек: ';
 ---
 <Base
-  title="VISONA Travel: визы в Европу, Великобританию, США и Японию"
-  description={`Помогаем получить визу: запись в визовый центр, документы, анкета и поддержка до решения консульства. 100+ одобренных виз. Наша работа от ${min.toLocaleString('ru-RU')} ₽ за человека.`}
+  title="Оформление виз в Европу, Великобританию и США | VISONA Travel"
+  description={`Помогаем с визами с 2025 года: запись в визовый центр, документы, анкета и поддержка до решения консульства. Больше 150 виз у клиентов, наша работа от ${min.toLocaleString('ru-RU')} ₽ за человека.`}
   jsonld={jsonld}
 >
   <section class="hero">
     <div class="aurora"></div>
     <div class="wrap two">
       <div>
-        <span class="stamp">100+ одобренных виз</span>
-        <h1 style="margin-top:20px">Визы в Европу, Великобританию и США</h1>
-        <p class="note" style="font-size:18px;margin-top:18px">Разбираем ваш случай, записываем в визовый центр, собираем документы и ведем до решения консульства. Нас двое, и мы сами постоянно подаемся на визы.</p>
+        <span class="stamp">Работаем с 2025 года</span>
+        <h1 style="margin-top:20px">Оформление виз в Европу, Великобританию и США</h1>
+        <p class="note" style="font-size:18px;margin-top:18px">Разбираем ваш случай, записываем в визовый центр, собираем документы и ведем до решения консульства. Нас двое, мы сами много путешествуем и подаемся на визы для себя.</p>
         <div class="cta-row">
           <a class="btn btn-primary" href={tg(tgMain)} rel="noopener" data-goal="tg">Написать в Telegram</a>
           <a class="btn btn-ghost" href="/tseny/">Цены</a>
@@ -40,7 +40,7 @@ const tgSpain = 'Здравствуйте! Хочу подачу в Испани
         </ul>
       </div>
       <div class="facts">
-        <div class="fact"><b>100+</b><small>одобренных виз у наших клиентов</small></div>
+        <div class="fact"><b>150+</b><small>виз получили наши клиенты</small></div>
         <div class="fact"><b>98%</b><small>одобрений по Франции</small></div>
         <div class="fact"><b>от {min.toLocaleString('ru-RU')} ₽</b><small>наша работа за человека, сборы отдельно</small></div>
       </div>
@@ -51,11 +51,11 @@ const tgSpain = 'Здравствуйте! Хочу подачу в Испани
     <div class="wrap">
       <div class="eyebrow">Страны</div>
       <h2 style="margin-top:12px">Куда помогаем получить визу</h2>
-      <div class="grid">
+      <div class="grid grid5">
         {countries.map((c) => (
           <a class="card" href={`/visa/${c.slug}/`}>
             <span class="cflag" set:html={flags[c.slug]} />
-            <div class="row"><h3>{c.name}</h3><span class="price">от {c.price.toLocaleString('ru-RU')} ₽</span></div>
+            <div class="row"><h3>{c.name}</h3><span class="price">{c.price ? `от ${c.price.toLocaleString('ru-RU')} ₽` : 'по запросу'}</span></div>
             <p>{c.lead}</p>
             <div class="tags"><span class="tag">{c.type}</span></div>
           </a>
@@ -83,6 +83,20 @@ const tgSpain = 'Здравствуйте! Хочу подачу в Испани
         ))}
       </div>
       <div class="cta-row"><a class="btn btn-ghost" href={site.channel} rel="noopener" target="_blank">Все отзывы по тегу #отзывы</a></div>
+    </div>
+  </section>
+
+  <section style="padding-top:0">
+    <div class="wrap">
+      <div class="eyebrow">Честно</div>
+      <h2 style="margin-top:12px">Честно о цене и шансах</h2>
+      <p class="note" style="margin-top:12px;font-size:16px">Мы небольшая команда и живем за счет рекомендаций, поэтому держим цены умеренными и не обещаем лишнего.</p>
+      <div class="honest">
+        <div><b>Цена известна до оплаты</b><p>Называем итоговую сумму вместе со сборами до начала работы. Доплат по ходу не бывает.</p></div>
+        <div><b>Без накрутки</b><p>Наша работа стоит от {min.toLocaleString('ru-RU')} ₽, это ниже многих агентств. Срочные услуги считаем от реальной себестоимости.</p></div>
+        <div><b>Не продаем лишнего</b><p>Если записаться можно вручную, бота не предлагаем. Если шансы в выбранной стране низкие, так и скажем и подскажем другую.</p></div>
+        <div><b>Сборы идут напрямую</b><p>Консульский и сервисный сборы получают консульство и визовый центр. Мы на них не зарабатываем.</p></div>
+      </div>
     </div>
   </section>
 
