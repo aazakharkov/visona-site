@@ -293,3 +293,17 @@ footer{border-top:1px solid var(--line);padding-block:34px;font-size:13.5px;colo
 .honest>div{padding-top:16px;border-top:2px solid var(--accent)}
 .honest b{display:block;font-size:15.5px;margin-bottom:6px}
 .honest p{font-size:14px;color:var(--ink-soft)}
+/* Блок "Как это устроено" и калькулятор сроков */
+.howto{margin:22px 0 0;padding:0;list-style:none;counter-reset:h;display:grid;gap:18px}
+.howto li{position:relative;padding-left:48px;color:var(--ink-soft);line-height:1.55}
+.howto li b{color:var(--ink);display:block;margin-bottom:2px}
+.howto li::before{counter-increment:h;content:counter(h);position:absolute;left:0;top:0;width:32px;height:32px;border-radius:50%;background:var(--accent-soft);color:var(--accent);font-weight:700;display:grid;place-items:center}
+.tripcheck{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:24px;display:flex;flex-direction:column;gap:14px;box-shadow:var(--shadow)}
+.tripcheck h3{margin:0}
+.field select{font:inherit;padding:13px 15px;border:1px solid var(--line-strong);border-radius:13px;background:var(--paper);color:var(--ink)}
+.field select:focus{border-color:var(--accent);box-shadow:0 0 0 4px var(--accent-soft);outline:none}
+.tc-out{border-left:3px solid var(--ok);background:var(--surface-2);border-radius:10px;padding:12px 14px}
+.tc-out p{margin:4px 0 0;color:var(--ink-soft);font-size:14px}
+.tripcheck .field{margin-top:0}
+.tc-out[data-s=warn]{border-left-color:#D08A1E}
+.tc-out[data-s=bad]{border-left-color:var(--stamp)}

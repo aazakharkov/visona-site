@@ -1,0 +1,58 @@
+---
+import { tg } from '../lib/tg.js';
+import site from '../data/site.json';
+// Сроки рассмотрения со слов Александра. Где данных нет, калькулятор предлагает написать.
+const opts = [
+  ['spain', 'Испания', 30], ['france', 'Франция', 45], ['italy', 'Италия', 100], ['hungary', 'Венгрия', 30],
+  ['greece', 'Греция', 45], ['uk', 'Великобритания', 30], ['usa', 'США', 0], ['cyprus', 'Кипр', 0], ['japan', 'Япония', 0],
+];
+---
+<section id="uspeete">
+  <div class="wrap two">
+    <div>
+      <div class="eyebrow">Впервые оформляете визу</div>
+      <h2 style="margin-top:12px">Как это устроено</h2>
+      <ol class="howto">
+        <li><b>Запись в визовый центр.</b> Документы на визу принимает визовый центр, туда нужно заранее записаться на конкретный день. В сезон свободные дни разбирают быстро, поиск даты мы берем на себя.</li>
+        <li><b>Один визит лично.</b> Вы приходите в визовый центр, сдаете документы, отпечатки пальцев и фотографируетесь. Если отпечатки уже сдавали и они еще действуют, иногда можно обойтись без визита.</li>
+        <li><b>Решение консульства.</b> Документы рассматривает консульство страны, обычно от 4 до 6 недель, в Италию дольше. Паспорт с визой вы забираете в визовом центре или получаете курьером.</li>
+      </ol>
+    </div>
+    <form class="tripcheck" id="tripcheck" onsubmit="return false">
+      <h3>Успеваете к поездке?</h3>
+      <p class="muted" style="font-size:14px;margin:0">Выберите страну и дату вылета, покажем ориентир по срокам.</p>
+      <label class="field"><span>Страна</span>
+        <select name="c" required>
+          <option value="">Выберите страну</option>
+          {opts.map(([s, n, d]) => <option value={s} data-name={n} data-days={d}>{n}</option>)}
+        </select>
+      </label>
+      <label class="field"><span>Дата вылета</span><input type="date" name="d" required /></label>
+      <div class="tc-out" aria-live="polite" hidden><b></b><p></p></div>
+      <a class="btn btn-primary" id="tc-go" href={tg('Здравствуйте! Хочу оформить визу.\nСтрана: \nДата вылета: ')} rel="noopener" data-goal="tg_tripcheck">Спросить в Telegram</a>
+      <small class="muted">Ориентир по нашему опыту. Точный ответ дадим в переписке, это бесплатно.</small>
+    </form>
+  </div>
+</section>
+<script is:inline define:vars={{ base: site.telegram }}>
+(() => {
+  const f = document.getElementById('tripcheck'); if (!f) return;
+  const out = f.querySelector('.tc-out'), go = document.getElementById('tc-go');
+  const run = () => {
+    const o = f.c.selectedOptions[0], v = f.d.value;
+    if (!o || !o.value || !v) { out.hidden = true; return; }
+    const name = o.dataset.name, need = +o.dataset.days;
+    const days = Math.round((new Date(v + 'T12:00') - new Date()) / 864e5);
+    const date = v.split('-').reverse().join('.');
+    let t, p, st = 'ok';
+    if (days < 0) { st = 'bad'; t = 'Дата уже прошла'; p = 'Проверьте дату вылета.'; }
+    else if (!need) { st = 'warn'; t = 'Нужно уточнить'; p = `По направлению ${name} сроки сильно зависят от города и ситуации. Напишите нам, посчитаем за пару минут.`; }
+    else if (days >= need + 35) { t = 'Успеваете спокойно'; p = `Консульство рассматривает документы до ${need} дней. Запаса хватает, но начать лучше в ближайшие недели, пока есть свободные даты.`; }
+    else if (days >= need + 14) { st = 'warn'; t = 'Успеваете, если начать сейчас'; p = `До вылета ${days} дн., рассмотрение до ${need} дней. Важно быстро найти дату в визовом центре, этим займемся мы.`; }
+    else { st = 'bad'; t = 'Обычным путем впритык'; p = `До вылета ${days} дн., а рассмотрение занимает до ${need} дней. Напишите нам: проверим срочные варианты или предложим другую страну.` + (o.value !== 'spain' ? '' : ' В Испанию можем подать хоть завтра.'); }
+    out.hidden = false; out.dataset.s = st; out.querySelector('b').textContent = t; out.querySelector('p').textContent = p;
+    go.href = base + '?text=' + encodeURIComponent(`Здравствуйте! Хочу оформить визу.\nСтрана: ${name}\nДата вылета: ${date}\nОриентир с сайта: ${t.toLowerCase()}`);
+  };
+  f.addEventListener('change', run); f.addEventListener('input', run);
+})();
+</script>
